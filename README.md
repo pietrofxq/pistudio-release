@@ -1,8 +1,8 @@
 # pistudio
 
-pistudio is a Windows app for recording a music cover one part at a time, syncing the takes, composing a multicam
-video and exporting it for Reels, Shorts, TikTok and YouTube. It runs on your PC: there is no account and nothing
-is hosted.
+pistudio is an app for recording a music cover one part at a time, syncing the takes, composing a multicam
+video and exporting it for Reels, Shorts, TikTok and YouTube. It runs on your own computer, on Windows and, in a
+first build, on a Mac: there is no account and nothing is hosted.
 
 This repository holds the installers and nothing else. The source is kept elsewhere.
 
@@ -22,6 +22,26 @@ pistudio needs 64-bit Windows 10 or 11, and ffmpeg with ffprobe, version 8 or la
 One way to get them is `winget install Gyan.FFmpeg` in a terminal; pistudio finds them by itself, or you point it to
 them in **Settings**, under **Media toolchain**.
 
+## Install on a Mac
+
+The Mac build is new and has fewer comforts than the Windows one: it is not signed with an Apple developer
+certificate, it does not update itself, and its keys are on Control rather than Command.
+
+1. Open [the latest release](../../releases/latest) and download `pistudio-X.Y.Z-arm64.dmg` for a Mac with Apple
+   silicon (M1 or later), or `pistudio-X.Y.Z-x64.dmg` for a Mac with an Intel processor.
+2. Open it and drag pistudio into **Applications**.
+3. Open pistudio. macOS refuses the first time, because it cannot check who made the app. Open **System
+   Settings**, **Privacy & Security**, scroll to the line about pistudio and choose **Open Anyway**.
+4. macOS asks before pistudio uses the camera, the microphone and your Documents folder, where it keeps your songs.
+   It asks again after each new version, because every build is signed anew.
+
+pistudio needs macOS 12 or later and ffmpeg 8 or later. One way to get ffmpeg is `brew install ffmpeg` with
+[Homebrew](https://brew.sh); pistudio finds it there by itself.
+
+To update on a Mac, download the newer `.dmg`, quit pistudio and drag the new app over the old one. Your songs (in
+`Documents/pistudio/library` unless you chose another folder) and the app's data
+(`~/Library/Application Support/pistudio`) are left alone.
+
 ## Check your download
 
 Each release lists the SHA-256 checksum of its files in `SHA256SUMS.txt`. In PowerShell:
@@ -30,11 +50,15 @@ Each release lists the SHA-256 checksum of its files in `SHA256SUMS.txt`. In Pow
 Get-FileHash .\pistudio-Setup-X.Y.Z.exe -Algorithm SHA256
 ```
 
-The line it prints must match the installer's line in that file.
+The line it prints must match the installer's line in that file. On a Mac, in Terminal:
+
+```
+shasum -a 256 ~/Downloads/pistudio-X.Y.Z-arm64.dmg
+```
 
 ## Update
 
-pistudio updates itself. Now and then it looks in this repository for a newer version, downloads it in the
+On Windows, pistudio updates itself. Now and then it looks in this repository for a newer version, downloads it in the
 background and installs it when you close the app; **Restart to update**, in **Settings** under **App**, installs
 it at once and opens pistudio again. Nothing starts while you record, and nothing is sent but the request for the
 update. Turn **Update automatically** off there and pistudio asks for nothing by itself: **Check for updates** then
@@ -47,7 +71,8 @@ publishes with it.
 To update by hand, download the newer installer and run it: it installs over the older one. Close pistudio first;
 the installer waits for it and never closes it for you, so a take or a render is not cut short.
 
-Your songs (in `Documents\Covers\library`, unless you chose another folder) and the app's own data are left alone.
+Your songs (in `Documents\pistudio\library`, or in `Documents\Covers\library` if they were already there, unless you
+chose another folder) and the app's own data are left alone.
 Do not keep songs inside the folder pistudio is installed in: every update replaces that folder, and the app refuses
 to use it as its library.
 
@@ -73,6 +98,11 @@ sozinho: procura uma atualização de tempos em tempos, baixa em segundo plano e
 **Configurações**, em **App**, **Atualizar automaticamente** desliga isso. Para atualizar à mão, feche o pistudio e
 execute o instalador mais novo por cima. Suas músicas e os dados do app ficam como estão.
 
+No Mac, baixe `pistudio-X.Y.Z-arm64.dmg` (Apple silicon) ou `pistudio-X.Y.Z-x64.dmg` (Intel) e arraste o pistudio
+para **Aplicativos**. Na primeira vez o macOS se recusa a abrir, porque o app ainda não é assinado: em **Ajustes do
+Sistema**, **Privacidade e Segurança**, escolha **Abrir Mesmo Assim**. No Mac o pistudio ainda não se atualiza
+sozinho: baixe o `.dmg` mais novo e substitua o app. O ffmpeg vem do Homebrew (`brew install ffmpeg`).
+
 ## En español
 
 pistudio es una aplicación para Windows que graba un cover parte por parte, sincroniza las tomas y compone un vídeo
@@ -85,3 +115,9 @@ se actualiza solo: busca una actualización cada cierto tiempo, la descarga en s
 la aplicación; en **Configuración**, en **Aplicación**, **Actualizar automáticamente** lo desactiva. Para
 actualizar a mano, cierra pistudio y ejecuta el instalador más nuevo encima. Tus canciones y los datos de la
 aplicación se quedan como están.
+
+En un Mac, descarga `pistudio-X.Y.Z-arm64.dmg` (Apple silicon) o `pistudio-X.Y.Z-x64.dmg` (Intel) y arrastra
+pistudio a **Aplicaciones**. La primera vez macOS se niega a abrirla, porque la aplicación todavía no está
+firmada: en **Ajustes del Sistema**, **Privacidad y seguridad**, elige **Abrir igualmente**. En el Mac pistudio
+todavía no se actualiza solo: descarga el `.dmg` más nuevo y sustituye la aplicación. ffmpeg se instala con
+Homebrew (`brew install ffmpeg`).
